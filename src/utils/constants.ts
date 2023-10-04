@@ -1,7 +1,7 @@
 const NOTES_API =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://notes-api.adaptable.app";
+  process.env.NODE_ENV === "production"
+    ? "https://notes-api.adaptable.app"
+    : "http://localhost:3000";
 
 const alphabetRegex = /^[a-zA-Z ]*$/;
 const minThreeCharactersRegex = /(.*[a-z]){3}/i;
