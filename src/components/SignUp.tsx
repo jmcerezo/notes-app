@@ -24,6 +24,7 @@ import {
   alphabetRegex,
   minThreeCharactersRegex,
   emailRegex,
+  passwordRegex,
 } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -94,7 +95,6 @@ const SignUp = () => {
   };
 
   const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*\d).{8,}$/;
     let isValid;
 
     if (password === "") {
@@ -103,7 +103,7 @@ const SignUp = () => {
       isValid = false;
     } else if (!passwordRegex.test(password)) {
       setPasswordError(
-        "Password must be minimum eight characters, at least one uppercase letter, one lowercase letter and one number."
+        "Password requires at least 8 characters. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number."
       );
       setErrorPassword(true);
       isValid = false;
