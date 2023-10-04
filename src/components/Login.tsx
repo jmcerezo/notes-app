@@ -19,12 +19,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
 import axios from "axios";
-import { NOTES_API } from "../utils/constants";
+import { NOTES_API, emailRegex } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = React.useState("");
   const [emailError, setEmailError] = React.useState("");
   const [emailIsError, setErrorEmail] = React.useState(false);
@@ -34,6 +34,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => event.preventDefault();
@@ -41,7 +42,6 @@ export default function Login() {
   const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     let isValid;
 
     if (email === "") {
@@ -246,4 +246,6 @@ export default function Login() {
       </Grid>
     </>
   );
-}
+};
+
+export default Login;

@@ -18,7 +18,7 @@ const theme = createTheme({
   },
 });
 
-function App() {
+const App = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -36,6 +36,6 @@ function App() {
       </ThemeProvider>
     </>
   );
-}
+};
 
 export default App;

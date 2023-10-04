@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import NotesOutlinedIcon from '@mui/icons-material/NotesOutlined';
+import NotesOutlinedIcon from "@mui/icons-material/NotesOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import FormControl from "@mui/material/FormControl";
@@ -19,12 +19,17 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
 import axios from "axios";
-import { NOTES_API } from "../utils/constants";
+import {
+  NOTES_API,
+  alphabetRegex,
+  minThreeCharactersRegex,
+  emailRegex,
+} from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function SignUp() {
+const SignUp = () => {
   const [name, setName] = React.useState("");
   const [nameError, setNameError] = React.useState("");
   const [nameIsError, setErrorName] = React.useState(false);
@@ -37,14 +42,14 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => event.preventDefault();
+
   const navigate = useNavigate();
 
   const validateName = (name: string) => {
-    const alphabetRegex = /^[A-Za-z]+$/;
-    const minThreeCharactersRegex = /(.*[a-z]){3}/i;
     let isValid;
 
     if (name === "") {
@@ -69,7 +74,6 @@ export default function SignUp() {
   };
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
     let isValid;
 
     if (email === "") {
@@ -294,4 +298,6 @@ export default function SignUp() {
       </Container>
     </>
   );
-}
+};
+
+export default SignUp;
