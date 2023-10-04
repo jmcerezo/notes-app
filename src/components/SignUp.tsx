@@ -149,34 +149,41 @@ const SignUp = () => {
     if (formIsValid) {
       const signUpToast = toast.loading("Signing up...", {
         position: toast.POSITION.TOP_CENTER,
-        toastId: "loading",
+        toastId: "toast-loading",
       });
 
       axios
         .post(url, user)
         .then((res) => {
-          console.log(res);
+          console.log(res.status);
+
+          setName("");
+          setEmail("");
+          setPassword("");
 
           setTimeout(() => {
             toast.dismiss(signUpToast);
             toast.success("You have successfully created an account.", {
               position: toast.POSITION.TOP_CENTER,
-              toastId: "success-message",
+              toastId: "toast-success",
             });
 
             setTimeout(() => {
               navigate("/login");
-            }, 3000);
+            }, 6000);
           }, 3000);
         })
         .catch((err) => {
-          toast.dismiss(signUpToast);
           console.log(err);
-          const errorMessage = err.response.data.message;
 
+          const errorMessage = err.response
+            ? err.response.data.message
+            : err.message;
+
+          toast.dismiss(signUpToast);
           toast.error(errorMessage, {
             position: toast.POSITION.TOP_CENTER,
-            toastId: "error-message",
+            toastId: "toast-error",
           });
         });
     }

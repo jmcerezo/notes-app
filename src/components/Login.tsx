@@ -104,23 +104,35 @@ const Login = () => {
     if (formIsValid) {
       const loginToast = toast.loading("Logging in...", {
         position: toast.POSITION.TOP_CENTER,
-        toastId: "loading",
+        toastId: "toast-loading",
       });
 
       axios
         .post(url, user)
         .then((res) => {
+          console.log(res.status);
+
+          setEmail("");
+          setPassword("");
+
+          toast.dismiss(loginToast);
+
           const token = res.data.token;
           localStorage.setItem("token", token);
+
           navigate("/");
         })
         .catch((err) => {
-          toast.dismiss(loginToast);
-          const errorMessage = err.response.data.message;
+          console.log(err);
 
+          const errorMessage = err.response
+            ? err.response.data.message
+            : err.message;
+
+          toast.dismiss(loginToast);
           toast.error(errorMessage, {
             position: toast.POSITION.TOP_CENTER,
-            toastId: "error-message",
+            toastId: "toast-error",
           });
         });
     }
