@@ -6,6 +6,7 @@ import PublicRoutes from "./components/PublicRoutes";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import "./App.css";
 
 const theme = createTheme({
   palette: {
