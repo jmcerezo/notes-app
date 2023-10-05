@@ -1,5 +1,16 @@
+import jwtDecode from "jwt-decode";
+
 export const useAuth = () => {
   const token = localStorage.getItem("token");
 
-  return token ? true : false;
+  if (token) {
+    const { exp } = Object(jwtDecode(token));
+    const expirationTime = exp * 1000;
+
+    if (expirationTime < Date.now()) {
+      localStorage.removeItem("token");
+    }
+
+    return true;
+  }
 };
