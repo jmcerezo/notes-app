@@ -24,8 +24,13 @@ const { create, getAll } = noteSlice.actions;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createNote = (data: any) => async (dispatch: any) => {
+  const token = localStorage.getItem("token")!;
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
   await api
-    .post("/notes", data)
+    .post("/notes", data, config)
     .then((res) => {
       dispatch(create(res.data));
 
@@ -56,8 +61,13 @@ export const getAllNotes = () => async (dispatch: any) => {
     toastId: "toast-loading",
   });
 
+  const token = localStorage.getItem("token")!;
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
   await api
-    .get("/notes")
+    .get("/notes", config)
     .then((res) => {
       toast.dismiss(loading);
       dispatch(getAll(res.data));
