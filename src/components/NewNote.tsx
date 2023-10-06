@@ -74,9 +74,9 @@ const AddNote = () => {
   }, [title, content]);
 
   return (
-    <div>
+    <div className="new-note-container">
       <Button variant="outlined" onClick={handleClickOpen}>
-        Add a new note
+        New note
       </Button>
       <Dialog
         fullScreen

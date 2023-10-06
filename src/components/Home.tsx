@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "./NavBar";
-import AddNote from "./AddNote";
+import NewNote from "./NewNote";
 import Notes from "./Notes";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
       <ToastContainer autoClose={3000} />
       <NavBar />
       <div className="components-wrapper">
-        <AddNote />
+        <NewNote />
         <Notes />
       </div>
     </>
