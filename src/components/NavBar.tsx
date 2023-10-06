@@ -58,13 +58,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const menuId = "primary-search-account-menu";
 const mobileMenuId = "primary-search-account-menu-mobile";
 
-const token = localStorage.getItem("token")!;
-const { name } = Object(jwtDecode(token));
-
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
   const isMenuOpen = Boolean(anchorEl);
+
+  const token = localStorage.getItem("token")!;
+  const { name } = Object(jwtDecode(token));
 
   const navigate = useNavigate();
 
