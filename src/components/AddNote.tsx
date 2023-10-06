@@ -55,8 +55,10 @@ const AddNote = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch(createNote(data) as any);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(getAllNotes() as any);
+    setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      dispatch(getAllNotes() as any);
+    }, 1000);
 
     setOpen(false);
     setTitle("");
