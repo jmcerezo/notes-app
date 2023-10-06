@@ -22,6 +22,23 @@ export default noteSlice.reducer;
 
 const { create, getAll } = noteSlice.actions;
 
+const toastSaveParams = {
+  pending: "Saving...",
+  success: "Saved successfully.",
+  error: "Saving failed !",
+};
+
+const toastFetchParams = {
+  pending: "Fetching data...",
+  error: "Fetching failed !",
+};
+
+const toastOptions = {
+  position: toast.POSITION.TOP_CENTER,
+  toastId: "toast-promise",
+  autoClose: 1500,
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createNote = (data: any) => async (dispatch: any) => {
   const token = localStorage.getItem("token")!;
@@ -29,59 +46,23 @@ export const createNote = (data: any) => async (dispatch: any) => {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  await api
-    .post("/notes", data, config)
-    .then((res) => {
-      dispatch(create(res.data));
+  const promise = api.post("/notes", data, config).then((res) => {
+    dispatch(create(res.data));
+  });
 
-      toast.success("Saved successfully.", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: "toast-success",
-        autoClose: 1000,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-
-      const errorMessage = err.response
-        ? err.response.data.message
-        : err.message;
-
-      toast.error(errorMessage, {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: "toast-error",
-      });
-    });
+  await toast.promise(promise, toastSaveParams, toastOptions);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getAllNotes = () => async (dispatch: any) => {
-  const loading = toast.loading("Loading...", {
-    position: toast.POSITION.TOP_CENTER,
-    toastId: "toast-loading",
-  });
-
   const token = localStorage.getItem("token")!;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  await api
-    .get("/notes", config)
-    .then((res) => {
-      toast.dismiss(loading);
-      dispatch(getAll(res.data));
-    })
-    .catch((err) => {
-      console.log(err);
+  const promise = api.get("/notes", config).then((res) => {
+    dispatch(getAll(res.data));
+  });
 
-      const errorMessage = err.response
-        ? err.response.data.message
-        : err.message;
-
-      toast.error(errorMessage, {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: "toast-error",
-      });
-    });
+  await toast.promise(promise, toastFetchParams, toastOptions);
 };
