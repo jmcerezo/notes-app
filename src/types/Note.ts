@@ -5,7 +5,7 @@ type Note = {
   user: string;
   createdAt: string;
   updatedAt: string;
-  _v: number;
+  __v: number;
 };
 
 export default Note;
