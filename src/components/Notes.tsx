@@ -33,17 +33,30 @@ const Notes = () => {
                 <Card
                   sx={{
                     maxWidth: 500,
+                    height: "100%",
                     borderRadius: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
                   <CardContent>
                     <Typography color="text.secondary">
                       {new Date(note.createdAt).toDateString()}
                     </Typography>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      className="note-title"
+                    >
                       {note.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      className="note-content"
+                    >
                       {note.content}
                     </Typography>
                   </CardContent>
