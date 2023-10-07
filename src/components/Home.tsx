@@ -3,6 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import NavBar from "./NavBar";
 import NewNote from "./NewNote";
 import Notes from "./Notes";
+import TextEditor from "./TextEditor";
+import DeleteModal from "./DeleteModal";
 
 const Home = () => {
   return (
@@ -12,6 +14,8 @@ const Home = () => {
       <div className="components-wrapper">
         <NewNote />
         <Notes />
+        <TextEditor />
+        <DeleteModal />
       </div>
     </>
   );

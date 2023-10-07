@@ -9,14 +9,27 @@ import Typography from "@mui/material/Typography";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllNotes } from "../slices/noteSlice";
+import { getAllNotes, handleDialog } from "../slices/noteSlice";
+import Action from "../enums/Action";
 import Note from "../types/Note";
 
 const Notes = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const notes: Note[] = useSelector((state: any) => state.notes.notes);
+
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const notes = useSelector((state: any) => state.notes.notes);
+  const handleEdit = (note: Note) => {
+    const modal = { action: Action.Edit, note };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    dispatch(handleDialog(modal) as any);
+  };
+
+  const handleDelete = (note: Note) => {
+    const modal = { action: Action.Delete, note };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    dispatch(handleDialog(modal) as any);
+  };
 
   React.useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +55,7 @@ const Notes = () => {
                 >
                   <CardContent>
                     <Typography color="text.secondary">
-                      {new Date(note.createdAt).toDateString()}
+                      {new Date(note.createdAt).toLocaleDateString()}
                     </Typography>
                     <Typography
                       gutterBottom
@@ -61,10 +74,18 @@ const Notes = () => {
                     </Typography>
                   </CardContent>
                   <CardActions sx={{ justifyContent: "center" }}>
-                    <Button size="small" variant="outlined">
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => handleEdit(note)}
+                    >
                       <EditOutlinedIcon />
                     </Button>
-                    <Button size="small" variant="outlined">
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => handleDelete(note)}
+                    >
                       <DeleteOutlinedIcon />
                     </Button>
                   </CardActions>
