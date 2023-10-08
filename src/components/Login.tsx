@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,20 +19,24 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
-import axios from "axios";
-import { NOTES_API, emailRegex } from "../utils/constants";
-import { useNavigate } from "react-router-dom";
+import api from "../api/notes";
+import {
+  emailRegex,
+  toastLoginParams,
+  toastPromiseOptions,
+  toastErrorOptions,
+} from "../utils/constants";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [emailError, setEmailError] = React.useState("");
-  const [emailIsError, setErrorEmail] = React.useState(false);
-  const [password, setPassword] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-  const [passwordIsError, setErrorPassword] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -46,15 +51,15 @@ const Login = () => {
 
     if (email === "") {
       setEmailError("Enter your email address.");
-      setErrorEmail(true);
+      setEmailIsValid(true);
       isValid = false;
     } else if (!emailRegex.test(email)) {
       setEmailError("Please enter valid email address.");
-      setErrorEmail(true);
+      setEmailIsValid(true);
       isValid = false;
     } else {
       setEmailError("");
-      setErrorEmail(false);
+      setEmailIsValid(false);
       isValid = true;
     }
 
@@ -66,11 +71,11 @@ const Login = () => {
 
     if (password === "") {
       setPasswordError("Enter your password.");
-      setErrorPassword(true);
+      setPasswordIsValid(true);
       isValid = false;
     } else {
       setPasswordError("");
-      setErrorPassword(false);
+      setPasswordIsValid(false);
       isValid = true;
     }
 
@@ -97,50 +102,37 @@ const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const url = `${NOTES_API}/auth/login`;
-    const user = { email, password };
+    const data = { email, password };
     const formIsValid = validateForm();
 
     if (formIsValid) {
-      const loginToast = toast.loading("Logging in...", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: "toast-loading",
+      const promise = api.post("auth/login", data).then((res) => {
+        console.log(res.status);
+
+        setEmail("");
+        setPassword("");
+
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+
+        navigate("/");
       });
 
-      axios
-        .post(url, user)
-        .then((res) => {
-          console.log(res.status);
-
-          setEmail("");
-          setPassword("");
-
-          toast.dismiss(loginToast);
-
-          const token = res.data.token;
-          localStorage.setItem("token", token);
-
-          navigate("/");
-        })
+      toast
+        .promise(promise, toastLoginParams, toastPromiseOptions)
         .catch((err) => {
-          console.log(err);
-
           const errorMessage = err.response
             ? err.response.data.message
             : err.message;
 
-          toast.dismiss(loginToast);
-          toast.error(errorMessage, {
-            position: toast.POSITION.TOP_CENTER,
-            toastId: "toast-error",
-          });
+          toast.error(errorMessage, toastErrorOptions);
         });
     }
   };
 
   return (
     <>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer hideProgressBar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -190,13 +182,13 @@ const Login = () => {
                 onChange={handleChange}
                 value={email}
                 helperText={emailError}
-                error={emailIsError}
+                error={emailIsValid}
               />
               <FormControl
                 fullWidth
                 variant="outlined"
                 margin="normal"
-                error={passwordIsError}
+                error={passwordIsValid}
               >
                 <InputLabel htmlFor="outlined-adornment-password">
                   Password

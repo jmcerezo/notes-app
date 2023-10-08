@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,29 +19,29 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
-import axios from "axios";
+import api from "../api/notes";
 import {
-  NOTES_API,
   alphabetRegex,
-  minThreeCharactersRegex,
   emailRegex,
   passwordRegex,
+  toastSignUpParams,
+  toastPromiseOptions,
+  toastErrorOptions,
 } from "../utils/constants";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
-  const [name, setName] = React.useState("");
-  const [nameError, setNameError] = React.useState("");
-  const [nameIsError, setErrorName] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [emailError, setEmailError] = React.useState("");
-  const [emailIsError, setErrorEmail] = React.useState(false);
-  const [password, setPassword] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState("");
-  const [passwordIsError, setErrorPassword] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [nameIsValid, setNameIsValid] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -55,19 +56,19 @@ const SignUp = () => {
 
     if (name === "") {
       setNameError("This is required.");
-      setErrorName(true);
+      setNameIsValid(true);
       isValid = false;
     } else if (!alphabetRegex.test(name)) {
       setNameError("Your name should not contain numbers.");
-      setErrorName(true);
+      setNameIsValid(true);
       isValid = false;
-    } else if (!minThreeCharactersRegex.test(name)) {
+    } else if (name.trim().length < 3) {
       setNameError("Enter at least three characters.");
-      setErrorName(true);
+      setNameIsValid(true);
       isValid = false;
     } else {
       setNameError("");
-      setErrorName(false);
+      setNameIsValid(false);
       isValid = true;
     }
 
@@ -79,15 +80,15 @@ const SignUp = () => {
 
     if (email === "") {
       setEmailError("This is required.");
-      setErrorEmail(true);
+      setEmailIsValid(true);
       isValid = false;
     } else if (!emailRegex.test(email)) {
       setEmailError("Please enter valid email address.");
-      setErrorEmail(true);
+      setEmailIsValid(true);
       isValid = false;
     } else {
       setEmailError("");
-      setErrorEmail(false);
+      setEmailIsValid(false);
       isValid = true;
     }
 
@@ -99,17 +100,17 @@ const SignUp = () => {
 
     if (password === "") {
       setPasswordError("This is required.");
-      setErrorPassword(true);
+      setPasswordIsValid(true);
       isValid = false;
     } else if (!passwordRegex.test(password)) {
       setPasswordError(
         "Password requires at least 8 characters. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number."
       );
-      setErrorPassword(true);
+      setPasswordIsValid(true);
       isValid = false;
     } else {
       setPasswordError("");
-      setErrorPassword(false);
+      setPasswordIsValid(false);
       isValid = true;
     }
 
@@ -142,56 +143,43 @@ const SignUp = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const url = `${NOTES_API}/auth/signup`;
-    const user = { name, email, password };
+    const data = { name, email, password };
     const formIsValid = validateForm();
 
     if (formIsValid) {
-      const signUpToast = toast.loading("Signing up...", {
-        position: toast.POSITION.TOP_CENTER,
-        toastId: "toast-loading",
+      const promise = api.post("auth/signup", data).then((res) => {
+        console.log(res.status);
+
+        setName("");
+        setEmail("");
+        setPassword("");
+
+        setTimeout(() => {
+          toast.loading("Redirecting to login page...", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }, 3000);
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 5000);
       });
 
-      axios
-        .post(url, user)
-        .then((res) => {
-          console.log(res.status);
-
-          setName("");
-          setEmail("");
-          setPassword("");
-
-          setTimeout(() => {
-            toast.dismiss(signUpToast);
-            toast.success("You have successfully created an account.", {
-              position: toast.POSITION.TOP_CENTER,
-              toastId: "toast-success",
-            });
-
-            setTimeout(() => {
-              navigate("/login");
-            }, 6000);
-          }, 3000);
-        })
+      toast
+        .promise(promise, toastSignUpParams, toastPromiseOptions)
         .catch((err) => {
-          console.log(err);
-
           const errorMessage = err.response
             ? err.response.data.message
             : err.message;
 
-          toast.dismiss(signUpToast);
-          toast.error(errorMessage, {
-            position: toast.POSITION.TOP_CENTER,
-            toastId: "toast-error",
-          });
+          toast.error(errorMessage, toastErrorOptions);
         });
     }
   };
 
   return (
     <>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer hideProgressBar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -227,7 +215,7 @@ const SignUp = () => {
                   onChange={handleChange}
                   value={name}
                   helperText={nameError}
-                  error={nameIsError}
+                  error={nameIsValid}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -242,7 +230,7 @@ const SignUp = () => {
                   onChange={handleChange}
                   value={email}
                   helperText={emailError}
-                  error={emailIsError}
+                  error={emailIsValid}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -251,7 +239,7 @@ const SignUp = () => {
                   fullWidth
                   variant="outlined"
                   margin="dense"
-                  error={passwordIsError}
+                  error={passwordIsValid}
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password
@@ -261,6 +249,7 @@ const SignUp = () => {
                     autoComplete="password"
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    onBlur={() => validatePassword(password)}
                     onChange={handleChange}
                     value={password}
                     endAdornment={

@@ -1,15 +1,15 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import NavBar from "./NavBar";
 import NewNote from "./NewNote";
 import Notes from "./Notes";
 import TextEditor from "./TextEditor";
 import DeleteModal from "./DeleteModal";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   return (
     <>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer hideProgressBar />
       <NavBar />
       <div className="components-wrapper">
         <NewNote />

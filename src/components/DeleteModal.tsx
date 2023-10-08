@@ -1,4 +1,5 @@
-import * as React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,12 +8,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteNote, getAllNotes, handleDialog } from "../slices/noteSlice";
 import Action from "../enums/Action";
 import Note from "../types/Note";
+import { deleteNote, getAllNotes, handleDialog } from "../slices/noteSlice";
 
-const Transition = React.forwardRef(function Transition(
+const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     children: React.ReactElement<any, any>;
@@ -23,20 +23,20 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const DeleteModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const action: Action = useSelector((state: any) => state.notes.modal.action);
+  const action: Action = useSelector((state: any) => state.notes.action);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const note: Note = useSelector((state: any) => state.notes.modal.note);
+  const note: Note = useSelector((state: any) => state.notes.note);
 
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    const modal = { action: "", note: {} };
+    const dialog = { action: "", note: {} };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(modal) as any);
+    dispatch(handleDialog(dialog) as any);
 
     setOpen(false);
   };
@@ -48,12 +48,12 @@ const DeleteModal = () => {
     setTimeout(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       dispatch(getAllNotes() as any);
-    }, 1000);
+    }, 2500);
 
     handleClose();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (action === Action.Delete) {
       setOpen(true);
     }

@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Card from "@mui/material/Card";
@@ -8,10 +9,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllNotes, handleDialog } from "../slices/noteSlice";
 import Action from "../enums/Action";
 import Note from "../types/Note";
+import { getAllNotes, handleDialog } from "../slices/noteSlice";
 
 const Notes = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,18 +20,18 @@ const Notes = () => {
   const dispatch = useDispatch();
 
   const handleEdit = (note: Note) => {
-    const modal = { action: Action.Edit, note };
+    const dialog = { action: Action.Edit, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(modal) as any);
+    dispatch(handleDialog(dialog) as any);
   };
 
   const handleDelete = (note: Note) => {
-    const modal = { action: Action.Delete, note };
+    const dialog = { action: Action.Delete, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(modal) as any);
+    dispatch(handleDialog(dialog) as any);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch(getAllNotes() as any);
   }, [dispatch]);

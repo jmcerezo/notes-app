@@ -1,15 +1,15 @@
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import { handleDialog } from "../slices/noteSlice";
 import Action from "../enums/Action";
+import { handleDialog } from "../slices/noteSlice";
 
 const NewNote = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    const modal = { action: Action.Create, note: {} };
+    const dialog = { action: Action.Create, note: {} };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(modal) as any);
+    dispatch(handleDialog(dialog) as any);
   };
 
   return (

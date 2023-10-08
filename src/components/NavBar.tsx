@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -12,7 +13,6 @@ import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 const Search = styled("div")(({ theme }) => ({
@@ -59,7 +59,7 @@ const menuId = "primary-search-account-menu";
 const mobileMenuId = "primary-search-account-menu-mobile";
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
   const token = localStorage.getItem("token")!;

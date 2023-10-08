@@ -1,4 +1,5 @@
-import * as React from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import ListItem from "@mui/material/ListItem";
@@ -11,17 +12,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
 import { TransitionProps } from "@mui/material/transitions";
-import { useDispatch, useSelector } from "react-redux";
+import Action from "../enums/Action";
+import Note from "../types/Note";
 import {
   createNote,
   editNote,
   getAllNotes,
   handleDialog,
 } from "../slices/noteSlice";
-import Action from "../enums/Action";
-import Note from "../types/Note";
 
-const Transition = React.forwardRef(function Transition(
+const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
@@ -31,16 +31,16 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const TextEditor = () => {
-  const [open, setOpen] = React.useState(false);
-  const [disable, setDisable] = React.useState(true);
-  const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [disable, setDisable] = useState(true);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const action: Action = useSelector((state: any) => state.notes.modal.action);
+  const action: Action = useSelector((state: any) => state.notes.action);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const note: Note = useSelector((state: any) => state.notes.modal.note);
+  const note: Note = useSelector((state: any) => state.notes.note);
 
   const dispatch = useDispatch();
 
@@ -53,9 +53,9 @@ const TextEditor = () => {
   };
 
   const handleClose = () => {
-    const modal = { action: "", note: {} };
+    const dialog = { action: "", note: {} };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(modal) as any);
+    dispatch(handleDialog(dialog) as any);
 
     setOpen(false);
     setTitle("");
@@ -78,12 +78,12 @@ const TextEditor = () => {
     setTimeout(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       dispatch(getAllNotes() as any);
-    }, 1000);
+    }, 2500);
 
     handleClose();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (action === Action.Create || action === Action.Edit) {
       setOpen(true);
     }

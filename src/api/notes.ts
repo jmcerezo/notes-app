@@ -1,6 +1,6 @@
 import axios from "axios";
-import { NOTES_API } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
 
 export default axios.create({
-  baseURL: NOTES_API,
+  baseURL: BASE_URL,
 });
