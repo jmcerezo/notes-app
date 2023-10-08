@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -14,6 +14,8 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import jwtDecode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { searchNote } from "../slices/noteSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,6 +61,7 @@ const menuId = "primary-search-account-menu";
 const mobileMenuId = "primary-search-account-menu-mobile";
 
 const NavBar = () => {
+  const [keyword, setKeyword] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -66,6 +69,11 @@ const NavBar = () => {
   const { name } = Object(jwtDecode(token));
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+  };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -79,6 +87,11 @@ const NavBar = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    dispatch(searchNote(keyword) as any);
+  }, [dispatch, keyword]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -107,8 +120,11 @@ const NavBar = () => {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              type="search"
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={handleChange}
+              value={keyword}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />

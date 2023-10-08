@@ -12,10 +12,14 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Action from "../enums/Action";
 import Note from "../types/Note";
 import { getAllNotes, handleDialog } from "../slices/noteSlice";
+import { searchFor } from "../utils/constants";
 
 const Notes = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const notes: Note[] = useSelector((state: any) => state.notes.notes);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const keyword: string = useSelector((state: any) => state.notes.keyword);
 
   const dispatch = useDispatch();
 
@@ -41,7 +45,7 @@ const Notes = () => {
       <div className="notes-container">
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2} justifyContent="center">
-            {notes.map((note: Note) => (
+            {notes.filter(searchFor(keyword)).map((note: Note) => (
               <Grid xs={12} sm={6} md={3} key={note._id}>
                 <Card
                   sx={{

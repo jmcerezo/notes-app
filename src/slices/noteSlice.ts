@@ -13,6 +13,7 @@ const noteSlice = createSlice({
   name: "notes",
   initialState: {
     action: "",
+    keyword: "",
     note: {} as Note,
     notes: [] as Note[],
   },
@@ -41,20 +42,24 @@ const noteSlice = createSlice({
 
       state.notes.splice(index, 1);
     },
+    onSearch: (state, action) => {
+      state.keyword = action.payload;
+    },
   },
 });
 
 export default noteSlice.reducer;
 
-const { dialog, onGetAll, onCreate, onEdit, onDelete } = noteSlice.actions;
+const { dialog, onGetAll, onCreate, onEdit, onDelete, onSearch } =
+  noteSlice.actions;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handleDialog = (data: any) => (dispatch: any) => {
+const handleDialog = (data: any) => (dispatch: any) => {
   dispatch(dialog(data));
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getAllNotes = () => async (dispatch: any) => {
+const getAllNotes = () => async (dispatch: any) => {
   const token = localStorage.getItem("token")!;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -68,7 +73,7 @@ export const getAllNotes = () => async (dispatch: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const createNote = (data: any) => async (dispatch: any) => {
+const createNote = (data: any) => async (dispatch: any) => {
   const token = localStorage.getItem("token")!;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -82,7 +87,7 @@ export const createNote = (data: any) => async (dispatch: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const editNote = (id: string, data: any) => async (dispatch: any) => {
+const editNote = (id: string, data: any) => async (dispatch: any) => {
   const token = localStorage.getItem("token")!;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -96,7 +101,7 @@ export const editNote = (id: string, data: any) => async (dispatch: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const deleteNote = (id: string) => async (dispatch: any) => {
+const deleteNote = (id: string) => async (dispatch: any) => {
   const token = localStorage.getItem("token")!;
   const config = {
     headers: { Authorization: `Bearer ${token}` },
@@ -107,4 +112,18 @@ export const deleteNote = (id: string) => async (dispatch: any) => {
   });
 
   await toast.promise(promise, toastDeleteParams, toastPromiseOptions);
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const searchNote = (keyword: string) => async (dispatch: any) => {
+  dispatch(onSearch(keyword));
+};
+
+export {
+  handleDialog,
+  getAllNotes,
+  createNote,
+  editNote,
+  deleteNote,
+  searchNote,
 };

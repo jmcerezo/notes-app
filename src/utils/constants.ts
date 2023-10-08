@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import Note from "../types/Note";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -53,6 +54,16 @@ const toastInfoOptions = {
   autoClose: 2500,
 };
 
+const searchFor = (keyword: string) => {
+  return (note: Note) => {
+    return (
+      note.title.toLowerCase().includes(keyword.toLowerCase()) ||
+      note.content.toLowerCase().includes(keyword.toLowerCase()) ||
+      !keyword
+    );
+  };
+};
+
 export {
   BASE_URL,
   alphabetRegex,
@@ -66,4 +77,5 @@ export {
   toastPromiseOptions,
   toastErrorOptions,
   toastInfoOptions,
+  searchFor,
 };
