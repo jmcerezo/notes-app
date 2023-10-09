@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha, useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,12 +11,15 @@ import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import WavingHandOutlined from "@mui/icons-material/WavingHandOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import jwtDecode from "jwt-decode";
-import { useDispatch } from "react-redux";
 import { searchNote } from "../slices/noteSlice";
+import { ColorModeContext } from "./Home";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,13 +61,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const menuId = "primary-search-account-menu";
-const mobileMenuId = "primary-search-account-menu-mobile";
+const menuId = "primary-search-menu";
+const mobileMenuId = "primary-search-menu-mobile";
 
 const NavBar = () => {
   const [keyword, setKeyword] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  const colorMode = useContext(ColorModeContext);
+  const theme = useTheme();
+  localStorage.setItem("paletteMode", theme.palette.mode);
 
   const token = localStorage.getItem("token")!;
   const { name } = Object(jwtDecode(token));
@@ -170,7 +178,23 @@ const NavBar = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem>Hi, {name}!</MenuItem>
+        <MenuItem sx={{ gap: 1 }}>
+          <WavingHandOutlined />
+          <span>Hi, {name}!</span>
+        </MenuItem>
+        <MenuItem onClick={colorMode.toggleColorMode} sx={{ gap: 1 }}>
+          {theme.palette.mode === "dark" ? (
+            <>
+              <LightModeOutlinedIcon />
+              <span>Light Mode</span>
+            </>
+          ) : (
+            <>
+              <DarkModeOutlinedIcon />
+              <span>Dark Mode</span>
+            </>
+          )}
+        </MenuItem>
         <MenuItem onClick={handleLogOut} sx={{ gap: 1 }}>
           <LogoutOutlinedIcon />
           Log Out

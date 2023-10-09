@@ -23,13 +23,13 @@ const Notes = () => {
 
   const dispatch = useDispatch();
 
-  const handleEdit = (note: Note) => {
+  const handleClickEdit = (note: Note) => {
     const dialog = { action: Action.Edit, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch(handleDialog(dialog) as any);
   };
 
-  const handleDelete = (note: Note) => {
+  const handleClickDelete = (note: Note) => {
     const dialog = { action: Action.Delete, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch(handleDialog(dialog) as any);
@@ -41,65 +41,63 @@ const Notes = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <div className="notes-container">
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} justifyContent="center">
-            {notes.filter(searchFor(keyword)).map((note: Note) => (
-              <Grid xs={12} sm={6} md={3} key={note._id}>
-                <Card
-                  sx={{
-                    maxWidth: 500,
-                    height: "100%",
-                    borderRadius: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <CardContent>
-                    <Typography color="text.secondary">
-                      {new Date(note.createdAt).toLocaleDateString()}
-                    </Typography>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="div"
-                      className="note-title"
-                    >
-                      {note.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      className="note-content"
-                    >
-                      {note.content}
-                    </Typography>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: "center" }}>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={() => handleEdit(note)}
-                    >
-                      <EditOutlinedIcon />
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={() => handleDelete(note)}
-                    >
-                      <DeleteOutlinedIcon />
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </div>
-    </>
+    <div className="notes-wrapper">
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2} justifyContent="center">
+          {notes.filter(searchFor(keyword)).map((note: Note) => (
+            <Grid xs={12} sm={6} md={3} key={note._id}>
+              <Card
+                sx={{
+                  maxWidth: 500,
+                  height: "100%",
+                  borderRadius: "1rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <CardContent>
+                  <Typography color="text.secondary">
+                    {new Date(note.createdAt).toLocaleDateString()}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="note-title"
+                  >
+                    {note.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="note-content"
+                  >
+                    {note.content}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ justifyContent: "center", mb: 1 }}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleClickEdit(note)}
+                  >
+                    <EditOutlinedIcon />
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleClickDelete(note)}
+                  >
+                    <DeleteOutlinedIcon />
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </div>
   );
 };
 

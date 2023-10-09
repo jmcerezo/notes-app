@@ -13,8 +13,8 @@ const NewNote = () => {
   };
 
   return (
-    <div className="new-note-container">
-      <Button variant="outlined" onClick={handleClick}>
+    <div className="new-note">
+      <Button variant="contained" onClick={handleClick}>
         New Note
       </Button>
     </div>

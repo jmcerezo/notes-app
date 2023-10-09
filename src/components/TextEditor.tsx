@@ -107,7 +107,7 @@ const TextEditor = () => {
         setDisable(false);
       }
     }
-  }, [action, title, content, note.content, note.title]);
+  }, [action, title, content, note.title, note.content]);
 
   return (
     <Dialog
@@ -155,7 +155,7 @@ const TextEditor = () => {
             id="content"
             fullWidth
             multiline
-            minRows={15}
+            minRows={5}
             defaultValue={note.content}
             onChange={handleChange}
           />
