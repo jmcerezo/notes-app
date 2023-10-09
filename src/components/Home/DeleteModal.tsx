@@ -8,9 +8,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import Action from "../enums/Action";
-import Note from "../types/Note";
-import { deleteNote, getAllNotes, handleDialog } from "../slices/noteSlice";
+import Action from "../../enums/Action";
+import Note from "../../types/Note";
+import { deleteNote, getAllNotes, handleDialog } from "../../slices/noteSlice";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

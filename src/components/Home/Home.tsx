@@ -65,9 +65,9 @@ const Home = () => {
               <NewNote />
               <Notes />
             </div>
-            <TextEditor />
-            <DeleteModal />
           </Box>
+          <TextEditor />
+          <DeleteModal />
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>

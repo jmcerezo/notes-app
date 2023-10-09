@@ -9,10 +9,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import Action from "../enums/Action";
-import Note from "../types/Note";
-import { getAllNotes, handleDialog } from "../slices/noteSlice";
-import { searchFor } from "../utils/constants";
+import Action from "../../enums/Action";
+import Note from "../../types/Note";
+import { getAllNotes, handleDialog } from "../../slices/noteSlice";
+import { searchFor } from "../../utils/constants";
 
 const Notes = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

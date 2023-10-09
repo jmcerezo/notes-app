@@ -12,14 +12,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
 import { TransitionProps } from "@mui/material/transitions";
-import Action from "../enums/Action";
-import Note from "../types/Note";
+import Action from "../../enums/Action";
+import Note from "../../types/Note";
 import {
   createNote,
   editNote,
   getAllNotes,
   handleDialog,
-} from "../slices/noteSlice";
+} from "../../slices/noteSlice";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

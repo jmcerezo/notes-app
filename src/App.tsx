@@ -3,9 +3,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { brown, grey } from "@mui/material/colors";
 import PrivateRoutes from "./components/PrivateRoutes";
 import PublicRoutes from "./components/PublicRoutes";
-import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import Home from "./components/Home/Home";
 import "./App.css";
 
 const theme = createTheme({

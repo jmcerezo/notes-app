@@ -18,7 +18,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import jwtDecode from "jwt-decode";
-import { searchNote } from "../slices/noteSlice";
+import { searchNote } from "../../slices/noteSlice";
 import { ColorModeContext } from "./Home";
 
 const Search = styled("div")(({ theme }) => ({
