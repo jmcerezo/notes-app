@@ -68,21 +68,18 @@ const DeleteModal = () => {
         TransitionComponent={Transition}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Delete Note</DialogTitle>
+        <DialogTitle>Are you sure you want to delete?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete?
-          </DialogContentText>
-          <DialogContentText className="note-title">
-            Title: {note.title}
+            This note will be permanently deleted. You can't undo this action.
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ justifyContent: "center" }}>
+        <DialogActions sx={{ justifyContent: "center", mb: 1 }}>
           <Button onClick={handleClose} variant="outlined">
-            No
+            Cancel
           </Button>
           <Button onClick={handleDelete} variant="contained">
-            Yes
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
