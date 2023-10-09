@@ -26,7 +26,7 @@ const noteSlice = createSlice({
       state.notes = action.payload;
     },
     onCreate: (state, action) => {
-      state.notes.push(action.payload);
+      state.notes.unshift(action.payload);
     },
     onEdit: (state, action) => {
       const index = state.notes.findIndex(
