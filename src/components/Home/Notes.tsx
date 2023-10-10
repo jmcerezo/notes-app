@@ -53,8 +53,8 @@ const Notes = () => {
             <Grid xs={12} sm={6} md={3} key={note._id}>
               <Grow
                 in={show}
+                timeout={1000}
                 style={{ transformOrigin: "0 0 0" }}
-                {...(show ? { timeout: 1000 } : {})}
               >
                 <Card
                   sx={{
