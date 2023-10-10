@@ -224,20 +224,14 @@ const Login = () => {
                 Login
               </Button>
               <Grid container>
-                <Grid item xs>
-                  {/* <Link
-                    href="/forgot-password"
-                    variant="body2"
-                    sx={{ fontWeight: "bold", textDecoration: "none" }}
-                  >
-                    Forgot password?
-                  </Link> */}
-                </Grid>
+                <Grid item xs></Grid>
                 <Grid item>
                   <Link
-                    href="/signup"
+                    component="button"
+                    type="button"
                     variant="body2"
                     sx={{ fontWeight: "bold", textDecoration: "none" }}
+                    onClick={() => navigate("/signup")}
                   >
                     No account yet? Sign Up
                   </Link>

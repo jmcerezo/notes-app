@@ -184,6 +184,7 @@ const SignUp = () => {
         <CssBaseline />
         <Box
           sx={{
+            padding: 2,
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
@@ -280,9 +281,11 @@ const SignUp = () => {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link
-                  href="/login"
+                  component="button"
+                  type="button"
                   variant="body2"
                   sx={{ fontWeight: "bold", textDecoration: "none" }}
+                  onClick={() => navigate("/login")}
                 >
                   Already have an account? Login
                 </Link>
