@@ -84,8 +84,15 @@ const TextEditor = () => {
   useEffect(() => {
     if (action === Action.Create || action === Action.Edit) {
       setOpen(true);
-    }
 
+      if (action === Action.Edit) {
+        setTitle(note.title);
+        setContent(note.content);
+      }
+    }
+  }, [action, note.title, note.content]);
+
+  useEffect(() => {
     if (action === Action.Create) {
       if (!title || !content) {
         setDisable(true);
@@ -95,16 +102,8 @@ const TextEditor = () => {
     } else if (action === Action.Edit) {
       if (title === note.title && content === note.content) {
         setDisable(true);
-      } else if (!title && content === note.content) {
+      } else if (!title || !content) {
         setDisable(true);
-      } else if (!content && title === note.title) {
-        setDisable(true);
-      } else if (!title && !content) {
-        setDisable(true);
-      } else if (!title && content) {
-        setTitle(note.title);
-      } else if (title && !content) {
-        setContent(note.content);
       } else {
         setDisable(false);
       }
@@ -141,7 +140,7 @@ const TextEditor = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List sx={{ mt: "3.5rem", maxHeight: "100vh", overflow: "auto" }}>
+      <List sx={{ mt: "3.5rem" }}>
         <ListItem sx={{ mt: 1 }}>
           {note.updatedAt ? (
             <Typography
