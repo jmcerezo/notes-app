@@ -63,9 +63,7 @@ const TextEditor = () => {
   };
 
   const handleSubmit = () => {
-    const noteTitle = title ? title : note.title;
-    const noteContent = content ? content : note.content;
-    const data = { title: noteTitle, content: noteContent };
+    const data = { title, content };
 
     if (action === Action.Create) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,20 +87,24 @@ const TextEditor = () => {
     }
 
     if (action === Action.Create) {
-      if (title !== "" && content !== "") {
-        setDisable(false);
-      } else {
+      if (!title || !content) {
         setDisable(true);
+      } else {
+        setDisable(false);
       }
     } else if (action === Action.Edit) {
-      if (title === "" && content === "") {
+      if (title === note.title && content === note.content) {
         setDisable(true);
-      } else if (title === note.title && content === "") {
+      } else if (!title && content === note.content) {
         setDisable(true);
-      } else if (content === note.content && title === "") {
+      } else if (!content && title === note.title) {
         setDisable(true);
-      } else if (title === note.title && content === note.content) {
+      } else if (!title && !content) {
         setDisable(true);
+      } else if (!title && content) {
+        setTitle(note.title);
+      } else if (title && !content) {
+        setContent(note.content);
       } else {
         setDisable(false);
       }
