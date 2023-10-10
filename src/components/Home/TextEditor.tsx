@@ -141,9 +141,10 @@ const TextEditor = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List sx={{ marginTop: "4rem" }}>
+      <List sx={{ mt: "4rem", maxHeight: "100vh", overflow: "auto" }}>
         <ListItem>
           <TextField
+            variant="standard"
             label="Title"
             id="title"
             fullWidth
@@ -153,6 +154,7 @@ const TextEditor = () => {
         </ListItem>
         <ListItem>
           <TextField
+            variant="standard"
             label="Content"
             id="content"
             fullWidth
@@ -160,6 +162,7 @@ const TextEditor = () => {
             minRows={5}
             defaultValue={note.content}
             onChange={handleChange}
+            InputProps={{ disableUnderline: true }}
           />
         </ListItem>
       </List>
