@@ -141,7 +141,25 @@ const TextEditor = () => {
           </Button>
         </Toolbar>
       </AppBar>
-      <List sx={{ mt: "4rem", maxHeight: "100vh", overflow: "auto" }}>
+      <List sx={{ mt: "3.5rem", maxHeight: "100vh", overflow: "auto" }}>
+        <ListItem sx={{ mt: 1 }}>
+          {note.updatedAt ? (
+            <Typography
+              sx={{ ml: 2, flex: 1, textAlign: "center" }}
+              variant="subtitle2"
+              component="h6"
+            >
+              Updated at {new Date(note.updatedAt).toLocaleString()}
+            </Typography>
+          ) : (
+            <Typography
+              sx={{ ml: 2, flex: 1, textAlign: "center" }}
+              variant="subtitle2"
+            >
+              {new Date().toLocaleDateString()}
+            </Typography>
+          )}
+        </ListItem>
         <ListItem>
           <TextField
             variant="standard"
