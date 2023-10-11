@@ -7,6 +7,7 @@ import {
   toastSaveParams,
   toastDeleteParams,
   toastPromiseOptions,
+  getRequestConfig,
 } from "../utils/constants";
 
 const noteSlice = createSlice({
@@ -60,10 +61,7 @@ const handleDialog = (data: any) => (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getAllNotes = () => async (dispatch: any) => {
-  const token = localStorage.getItem("token")!;
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  const config = getRequestConfig();
 
   const promise = api.get("notes", config).then((res) => {
     dispatch(onGetAll(res.data));
@@ -74,10 +72,7 @@ const getAllNotes = () => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createNote = (data: any) => async (dispatch: any) => {
-  const token = localStorage.getItem("token")!;
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  const config = getRequestConfig();
 
   const promise = api.post("notes", data, config).then((res) => {
     dispatch(onCreate(res.data));
@@ -88,10 +83,7 @@ const createNote = (data: any) => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const editNote = (id: string, data: any) => async (dispatch: any) => {
-  const token = localStorage.getItem("token")!;
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  const config = getRequestConfig();
 
   const promise = api.put(`notes/${id}`, data, config).then((res) => {
     dispatch(onEdit(res.data));
@@ -102,10 +94,7 @@ const editNote = (id: string, data: any) => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deleteNote = (id: string) => async (dispatch: any) => {
-  const token = localStorage.getItem("token")!;
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  const config = getRequestConfig();
 
   const promise = api.delete(`notes/${id}`, config).then((res) => {
     dispatch(onDelete(res.data));

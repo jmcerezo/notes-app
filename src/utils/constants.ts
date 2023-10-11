@@ -48,6 +48,13 @@ const toastErrorOptions = {
   autoClose: 2500,
 };
 
+const getRequestConfig = () => {
+  const token = localStorage.getItem("token")!;
+  return {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+};
+
 const searchFor = (keyword: string) => {
   return (note: Note) => {
     return (
@@ -70,5 +77,6 @@ export {
   toastDeleteParams,
   toastPromiseOptions,
   toastErrorOptions,
+  getRequestConfig,
   searchFor,
 };
