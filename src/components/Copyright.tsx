@@ -10,7 +10,7 @@ const Copyright = (props: any) => {
       align="center"
       {...props}
     >
-      {"Copyright © "}
+      {`© ${new Date().getFullYear()} `}
       <Link
         color="inherit"
         target="_blank"
@@ -19,7 +19,6 @@ const Copyright = (props: any) => {
       >
         Notes App
       </Link>
-      {` ${new Date().getFullYear()}.`}
     </Typography>
   );
 };
