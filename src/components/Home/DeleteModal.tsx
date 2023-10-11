@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
-import { deleteNote, getAllNotes, handleDialog } from "../../slices/noteSlice";
+import { deleteNote, handleDialog } from "../../slices/noteSlice";
 
 const DeleteModal = () => {
   const [open, setOpen] = useState(false);
@@ -33,11 +33,6 @@ const DeleteModal = () => {
   const handleDelete = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dispatch(deleteNote(note._id) as any);
-
-    setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(getAllNotes() as any);
-    }, 2500);
 
     handleClose();
   };

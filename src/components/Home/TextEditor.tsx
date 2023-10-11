@@ -18,12 +18,7 @@ import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import FormState from "../../enums/FormState";
 import Note from "../../types/Note";
-import {
-  createNote,
-  editNote,
-  getAllNotes,
-  handleDialog,
-} from "../../slices/noteSlice";
+import { createNote, editNote, handleDialog } from "../../slices/noteSlice";
 
 const TextEditor = () => {
   const [open, setOpen] = useState(false);
@@ -84,11 +79,6 @@ const TextEditor = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       dispatch(editNote(note._id, data) as any);
     }
-
-    setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(getAllNotes() as any);
-    }, 2500);
 
     handleClose();
   };
