@@ -48,12 +48,6 @@ const toastErrorOptions = {
   autoClose: 2500,
 };
 
-const toastInfoOptions = {
-  position: toast.POSITION.TOP_CENTER,
-  toastId: "toast-info",
-  autoClose: 2500,
-};
-
 const searchFor = (keyword: string) => {
   return (note: Note) => {
     return (
@@ -76,6 +70,5 @@ export {
   toastDeleteParams,
   toastPromiseOptions,
   toastErrorOptions,
-  toastInfoOptions,
   searchFor,
 };
