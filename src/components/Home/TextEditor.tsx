@@ -106,7 +106,10 @@ const TextEditor = () => {
 
   useEffect(() => {
     if (action === Action.Create) {
-      if (!title || !content) {
+      if (!title && !content) {
+        setDisable(true);
+        setFormState(FormState.Unchanged);
+      } else if (!title || !content) {
         setDisable(true);
         setFormState(FormState.Modified);
       } else {
