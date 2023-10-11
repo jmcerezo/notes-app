@@ -21,7 +21,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
 import api from "../api/notes";
 import {
-  emailRegex,
   toastLoginParams,
   toastPromiseOptions,
   toastErrorOptions,
@@ -51,10 +50,6 @@ const Login = () => {
 
     if (email === "") {
       setEmailError("Enter your email address.");
-      setEmailIsValid(true);
-      isValid = false;
-    } else if (!emailRegex.test(email)) {
-      setEmailError("Please enter valid email address.");
       setEmailIsValid(true);
       isValid = false;
     } else {

@@ -250,7 +250,6 @@ const SignUp = () => {
                     autoComplete="password"
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    onBlur={() => validatePassword(password)}
                     onChange={handleChange}
                     value={password}
                     endAdornment={
