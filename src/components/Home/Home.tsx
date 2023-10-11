@@ -8,6 +8,7 @@ import NewNote from "./NewNote";
 import Notes from "./Notes";
 import TextEditor from "./TextEditor";
 import DeleteModal from "./DeleteModal";
+import ScrollToTop from "../ScrollToTop";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,20 +55,26 @@ const Home = () => {
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <NavBar />
+          <TextEditor />
+          <DeleteModal />
+          <ScrollToTop />
           <Box
             sx={{
               height: "100vh",
-              overflow: "auto",
               bgcolor: "background.default",
             }}
           >
-            <div className="notes-container">
-              <NewNote />
-              <Notes />
-            </div>
+            <Box
+              sx={{
+                bgcolor: "background.default",
+              }}
+            >
+              <div className="notes-container">
+                <NewNote />
+                <Notes />
+              </div>
+            </Box>
           </Box>
-          <TextEditor />
-          <DeleteModal />
         </ThemeProvider>
       </ColorModeContext.Provider>
     </>
