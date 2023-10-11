@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -13,9 +13,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
-import { TransitionProps } from "@mui/material/transitions";
+import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import FormState from "../../enums/FormState";
 import Note from "../../types/Note";
@@ -25,15 +24,6 @@ import {
   getAllNotes,
   handleDialog,
 } from "../../slices/noteSlice";
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const TextEditor = () => {
   const [open, setOpen] = useState(false);
@@ -147,7 +137,11 @@ const TextEditor = () => {
 
   return (
     <div>
-      <Dialog open={modalOpen} onClose={handleCloseModal}>
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        TransitionComponent={ModalTransition}
+      >
         <DialogTitle>Discard {note._id ? "changes" : "note"}?</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -158,7 +152,7 @@ const TextEditor = () => {
           <Button variant="outlined" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="contained" onClick={handleClose} autoFocus>
+          <Button variant="contained" onClick={handleClose}>
             Discard
           </Button>
         </DialogActions>
@@ -168,7 +162,7 @@ const TextEditor = () => {
         fullScreen
         open={open}
         onClose={handleDiscardModal}
-        TransitionComponent={Transition}
+        TransitionComponent={ModalTransition}
       >
         <AppBar sx={{ position: "fixed" }}>
           <Toolbar>
@@ -183,12 +177,7 @@ const TextEditor = () => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Note
             </Typography>
-            <Button
-              autoFocus
-              color="inherit"
-              onClick={handleSubmit}
-              disabled={disable}
-            >
+            <Button color="inherit" onClick={handleSubmit} disabled={disable}>
               Save
             </Button>
           </Toolbar>

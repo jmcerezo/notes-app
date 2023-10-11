@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -6,21 +6,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
-import { TransitionProps } from "@mui/material/transitions";
+import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
 import { deleteNote, getAllNotes, handleDialog } from "../../slices/noteSlice";
-
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
 
 const DeleteModal = () => {
   const [open, setOpen] = useState(false);
@@ -65,7 +54,7 @@ const DeleteModal = () => {
         open={open}
         keepMounted
         onClose={handleClose}
-        TransitionComponent={Transition}
+        TransitionComponent={ModalTransition}
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>Are you sure you want to delete?</DialogTitle>
