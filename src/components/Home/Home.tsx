@@ -60,7 +60,7 @@ const Home = () => {
           <ScrollToTop />
           <Box
             sx={{
-              height: "100vh",
+              height: "calc(100vh - 3.5rem)",
               bgcolor: "background.default",
             }}
           >
