@@ -12,7 +12,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
-import { getAllNotes, handleDialog } from "../../slices/noteSlice";
+import { getAllNotes, takeAction } from "../../slices/noteSlice";
 import { searchFor } from "../../utils/constants";
 
 const Notes = () => {
@@ -27,15 +27,15 @@ const Notes = () => {
   const dispatch = useDispatch();
 
   const handleClickEdit = (note: Note) => {
-    const dialog = { action: Action.Edit, note };
+    const state = { action: Action.Edit, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(dialog) as any);
+    dispatch(takeAction(state) as any);
   };
 
   const handleClickDelete = (note: Note) => {
-    const dialog = { action: Action.Delete, note };
+    const state = { action: Action.Delete, note };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(dialog) as any);
+    dispatch(takeAction(state) as any);
   };
 
   useEffect(() => {

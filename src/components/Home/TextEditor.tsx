@@ -18,7 +18,7 @@ import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import FormState from "../../enums/FormState";
 import Note from "../../types/Note";
-import { createNote, editNote, handleDialog } from "../../slices/noteSlice";
+import { createNote, editNote, takeAction } from "../../slices/noteSlice";
 
 const TextEditor = () => {
   const [open, setOpen] = useState(false);
@@ -45,9 +45,9 @@ const TextEditor = () => {
   };
 
   const handleClose = () => {
-    const dialog = { action: "", note: {} };
+    const state = { action: "", note: {} };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(dialog) as any);
+    dispatch(takeAction(state) as any);
 
     handleCloseModal();
     setOpen(false);

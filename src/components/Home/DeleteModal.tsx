@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
-import { deleteNote, handleDialog } from "../../slices/noteSlice";
+import { deleteNote, takeAction } from "../../slices/noteSlice";
 
 const DeleteModal = () => {
   const [open, setOpen] = useState(false);
@@ -23,9 +23,9 @@ const DeleteModal = () => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    const dialog = { action: "", note: {} };
+    const state = { action: "", note: {} };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(handleDialog(dialog) as any);
+    dispatch(takeAction(state) as any);
 
     setOpen(false);
   };
@@ -50,7 +50,6 @@ const DeleteModal = () => {
         keepMounted
         onClose={handleClose}
         TransitionComponent={ModalTransition}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>Are you sure you want to delete?</DialogTitle>
         <DialogContent>

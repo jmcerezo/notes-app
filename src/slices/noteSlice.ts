@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api/notes";
+import Data from "../types/Data";
 import Note from "../types/Note";
+import State from "../types/State";
 import { toast } from "react-toastify";
 import {
   toastFetchParams,
@@ -19,7 +21,7 @@ const noteSlice = createSlice({
     notes: [] as Note[],
   },
   reducers: {
-    dialog: (state, action) => {
+    onAction: (state, action) => {
       state.action = action.payload.action;
       state.note = action.payload.note;
     },
@@ -51,12 +53,12 @@ const noteSlice = createSlice({
 
 export default noteSlice.reducer;
 
-const { dialog, onGetAll, onCreate, onEdit, onDelete, onSearch } =
+const { onAction, onGetAll, onCreate, onEdit, onDelete, onSearch } =
   noteSlice.actions;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const handleDialog = (data: any) => (dispatch: any) => {
-  dispatch(dialog(data));
+const takeAction = (state: State) => (dispatch: any) => {
+  dispatch(onAction(state));
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,7 +73,7 @@ const getAllNotes = () => async (dispatch: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createNote = (data: any) => async (dispatch: any) => {
+const createNote = (data: Data) => async (dispatch: any) => {
   const config = getRequestConfig();
 
   const promise = api.post("notes", data, config).then((res) => {
@@ -82,7 +84,7 @@ const createNote = (data: any) => async (dispatch: any) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const editNote = (id: string, data: any) => async (dispatch: any) => {
+const editNote = (id: string, data: Data) => async (dispatch: any) => {
   const config = getRequestConfig();
 
   const promise = api.put(`notes/${id}`, data, config).then((res) => {
@@ -109,7 +111,7 @@ const searchNote = (keyword: string) => async (dispatch: any) => {
 };
 
 export {
-  handleDialog,
+  takeAction,
   getAllNotes,
   createNote,
   editNote,
