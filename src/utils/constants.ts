@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import Note from "../types/Note";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -48,23 +47,6 @@ const toastErrorOptions = {
   autoClose: 2500,
 };
 
-const getRequestConfig = () => {
-  const token = localStorage.getItem("token")!;
-  return {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-};
-
-const searchFor = (keyword: string) => {
-  return (note: Note) => {
-    return (
-      note.title.toLowerCase().includes(keyword.toLowerCase()) ||
-      note.content.toLowerCase().includes(keyword.toLowerCase()) ||
-      !keyword
-    );
-  };
-};
-
 export {
   BASE_URL,
   alphabetRegex,
@@ -77,6 +59,4 @@ export {
   toastDeleteParams,
   toastPromiseOptions,
   toastErrorOptions,
-  getRequestConfig,
-  searchFor,
 };

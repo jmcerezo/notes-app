@@ -9,8 +9,8 @@ import {
   toastSaveParams,
   toastDeleteParams,
   toastPromiseOptions,
-  getRequestConfig,
 } from "../utils/constants";
+import requestConfig from "../utils/requestConfig";
 
 const noteSlice = createSlice({
   name: "notes",
@@ -63,7 +63,7 @@ const takeAction = (state: State) => (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getAllNotes = () => async (dispatch: any) => {
-  const config = getRequestConfig();
+  const config = requestConfig();
 
   const promise = api.get("notes", config).then((res) => {
     dispatch(onGetAll(res.data));
@@ -74,7 +74,7 @@ const getAllNotes = () => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createNote = (data: Data) => async (dispatch: any) => {
-  const config = getRequestConfig();
+  const config = requestConfig();
 
   const promise = api.post("notes", data, config).then((res) => {
     dispatch(onCreate(res.data));
@@ -85,7 +85,7 @@ const createNote = (data: Data) => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const editNote = (id: string, data: Data) => async (dispatch: any) => {
-  const config = getRequestConfig();
+  const config = requestConfig();
 
   const promise = api.put(`notes/${id}`, data, config).then((res) => {
     dispatch(onEdit(res.data));
@@ -96,7 +96,7 @@ const editNote = (id: string, data: Data) => async (dispatch: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const deleteNote = (id: string) => async (dispatch: any) => {
-  const config = getRequestConfig();
+  const config = requestConfig();
 
   const promise = api.delete(`notes/${id}`, config).then((res) => {
     dispatch(onDelete(res.data));

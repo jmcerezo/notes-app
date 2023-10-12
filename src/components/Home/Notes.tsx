@@ -13,7 +13,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
 import { getAllNotes, takeAction } from "../../slices/noteSlice";
-import { searchFor } from "../../utils/constants";
+import searchFor from "../../utils/searchFor";
 
 const Notes = () => {
   const [show, setShow] = useState(false);
