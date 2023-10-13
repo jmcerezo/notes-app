@@ -35,6 +35,11 @@ const toastDeleteParams = {
   error: "Delete failed !",
 };
 
+const toastLoadingOptions = {
+  position: toast.POSITION.TOP_CENTER,
+  toastId: "toast-loading",
+};
+
 const toastPromiseOptions = {
   position: toast.POSITION.TOP_CENTER,
   toastId: "toast-promise",
@@ -57,6 +62,7 @@ export {
   toastFetchParams,
   toastSaveParams,
   toastDeleteParams,
+  toastLoadingOptions,
   toastPromiseOptions,
   toastErrorOptions,
 };

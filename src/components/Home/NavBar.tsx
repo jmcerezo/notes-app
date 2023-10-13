@@ -18,8 +18,10 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import jwtDecode from "jwt-decode";
-import { searchNote } from "../../slices/noteSlice";
 import { ColorModeContext } from "./Home";
+import { searchNote } from "../../slices/noteSlice";
+import { toast } from "react-toastify";
+import { toastLoadingOptions } from "../../utils/constants";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -83,7 +85,7 @@ const NavBar = () => {
     setKeyword(event.target.value);
   };
 
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -92,8 +94,14 @@ const NavBar = () => {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    handleMenuClose();
+
+    toast.loading("Logging out...", toastLoadingOptions);
+
+    setTimeout(() => {
+      localStorage.removeItem("token");
+      navigate("/login");
+    }, 3000);
   };
 
   useEffect(() => {
@@ -110,15 +118,14 @@ const NavBar = () => {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="open drawer"
             sx={{ mr: 2 }}
           >
             <EditNoteOutlinedIcon />
           </IconButton>
           <Typography
+            component="div"
             variant="h6"
             noWrap
-            component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
             Notes
@@ -140,10 +147,10 @@ const NavBar = () => {
             <IconButton
               size="large"
               edge="end"
-              aria-label="account of current user"
+              aria-label="menu"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleMenuOpen}
               color="inherit"
             >
               <AccountCircle />
@@ -152,10 +159,10 @@ const NavBar = () => {
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="show more"
+              aria-label="menu"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleMenuOpen}
               color="inherit"
             >
               <AccountCircle />
