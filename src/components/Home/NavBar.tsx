@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha, useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -19,6 +18,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import jwtDecode from "jwt-decode";
 import { ColorModeContext } from "./Home";
+import { useAppDispatch } from "../../hooks";
 import { searchNote } from "../../slices/noteSlice";
 import { toast } from "react-toastify";
 import { toastLoadingOptions } from "../../utils/constants";
@@ -79,7 +79,7 @@ const NavBar = () => {
   const { name } = Object(jwtDecode(token));
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
@@ -105,8 +105,7 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(searchNote(keyword) as any);
+    dispatch(searchNote(keyword));
   }, [dispatch, keyword]);
 
   return (

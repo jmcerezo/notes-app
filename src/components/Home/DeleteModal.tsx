@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,31 +7,27 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
-import Note from "../../types/Note";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { deleteNote, takeAction } from "../../slices/noteSlice";
 
 const DeleteModal = () => {
   const [open, setOpen] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const action: Action = useSelector((state: any) => state.notes.action);
+  const action = useAppSelector((state) => state.notes.action);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const note: Note = useSelector((state: any) => state.notes.note);
+  const note = useAppSelector((state) => state.notes.note);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     const state = { action: "", note: {} };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(takeAction(state) as any);
+    dispatch(takeAction(state));
 
     setOpen(false);
   };
 
   const handleDelete = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(deleteNote(note._id) as any);
+    dispatch(deleteNote(note._id));
 
     handleClose();
   };

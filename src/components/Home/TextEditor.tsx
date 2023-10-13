@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -17,7 +16,7 @@ import TextField from "@mui/material/TextField";
 import ModalTransition from "../ModalTransition";
 import Action from "../../enums/Action";
 import FormState from "../../enums/FormState";
-import Note from "../../types/Note";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { createNote, editNote, takeAction } from "../../slices/noteSlice";
 
 const TextEditor = () => {
@@ -28,13 +27,11 @@ const TextEditor = () => {
   const [content, setContent] = useState("");
   const [formState, setFormState] = useState<FormState>(FormState.Unchanged);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const action: Action = useSelector((state: any) => state.notes.action);
+  const action = useAppSelector((state) => state.notes.action);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const note: Note = useSelector((state: any) => state.notes.note);
+  const note = useAppSelector((state) => state.notes.note);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.id === "title") {
@@ -46,8 +43,7 @@ const TextEditor = () => {
 
   const handleClose = () => {
     const state = { action: "", note: {} };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(takeAction(state) as any);
+    dispatch(takeAction(state));
 
     handleCloseModal();
     setOpen(false);
@@ -61,7 +57,7 @@ const TextEditor = () => {
   };
 
   const handleDiscardModal = () => {
-    !disable ? setModalOpen(true) : handleClose();
+    disable ? handleClose() : setModalOpen(true);
   };
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -73,11 +69,9 @@ const TextEditor = () => {
     const data = { title, content };
 
     if (action === Action.Create) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(createNote(data) as any);
+      dispatch(createNote(data));
     } else if (action === Action.Edit) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dispatch(editNote(note._id, data) as any);
+      dispatch(editNote(note._id, data));
     }
 
     handleClose();

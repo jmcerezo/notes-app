@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AppDispatch } from "../store";
 import api from "../api/notes";
 import Data from "../types/Data";
 import Note from "../types/Note";
@@ -56,13 +57,11 @@ export default noteSlice.reducer;
 const { onAction, onGetAll, onCreate, onEdit, onDelete, onSearch } =
   noteSlice.actions;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const takeAction = (state: State) => (dispatch: any) => {
+const takeAction = (state: State) => (dispatch: AppDispatch) => {
   dispatch(onAction(state));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getAllNotes = () => async (dispatch: any) => {
+const getAllNotes = () => async (dispatch: AppDispatch) => {
   const config = requestConfig();
 
   const promise = api.get("notes", config).then((res) => {
@@ -72,8 +71,7 @@ const getAllNotes = () => async (dispatch: any) => {
   await toast.promise(promise, toastFetchParams, toastPromiseOptions);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createNote = (data: Data) => async (dispatch: any) => {
+const createNote = (data: Data) => async (dispatch: AppDispatch) => {
   const config = requestConfig();
 
   const promise = api.post("notes", data, config).then((res) => {
@@ -83,8 +81,7 @@ const createNote = (data: Data) => async (dispatch: any) => {
   await toast.promise(promise, toastSaveParams, toastPromiseOptions);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const editNote = (id: string, data: Data) => async (dispatch: any) => {
+const editNote = (id: string, data: Data) => async (dispatch: AppDispatch) => {
   const config = requestConfig();
 
   const promise = api.put(`notes/${id}`, data, config).then((res) => {
@@ -94,8 +91,7 @@ const editNote = (id: string, data: Data) => async (dispatch: any) => {
   await toast.promise(promise, toastSaveParams, toastPromiseOptions);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const deleteNote = (id: string) => async (dispatch: any) => {
+const deleteNote = (id: string) => async (dispatch: AppDispatch) => {
   const config = requestConfig();
 
   const promise = api.delete(`notes/${id}`, config).then((res) => {
@@ -105,8 +101,7 @@ const deleteNote = (id: string) => async (dispatch: any) => {
   await toast.promise(promise, toastDeleteParams, toastPromiseOptions);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const searchNote = (keyword: string) => async (dispatch: any) => {
+const searchNote = (keyword: string) => async (dispatch: AppDispatch) => {
   dispatch(onSearch(keyword));
 };
 

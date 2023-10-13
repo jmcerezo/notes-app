@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Grow from "@mui/material/Grow";
@@ -12,37 +11,33 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import Action from "../../enums/Action";
 import Note from "../../types/Note";
-import { getAllNotes, takeAction } from "../../slices/noteSlice";
 import searchFor from "../../utils/searchFor";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getAllNotes, takeAction } from "../../slices/noteSlice";
 
 const Notes = () => {
   const [show, setShow] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const notes: Note[] = useSelector((state: any) => state.notes.notes);
+  const notes = useAppSelector((state) => state.notes.notes);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const keyword: string = useSelector((state: any) => state.notes.keyword);
+  const keyword = useAppSelector((state) => state.notes.keyword);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClickEdit = (note: Note) => {
     const state = { action: Action.Edit, note };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(takeAction(state) as any);
+    dispatch(takeAction(state));
   };
 
   const handleClickDelete = (note: Note) => {
     const state = { action: Action.Delete, note };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(takeAction(state) as any);
+    dispatch(takeAction(state));
   };
 
   useEffect(() => {
     setShow(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dispatch(getAllNotes() as any);
+    dispatch(getAllNotes());
   }, [dispatch]);
 
   return (
