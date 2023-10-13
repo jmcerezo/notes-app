@@ -37,8 +37,8 @@ const Home = () => {
             main: mode === "dark" ? grey[400] : brown[400],
           },
           background: {
-            default: mode === "dark" ? grey[900] : brown[50],
-            paper: mode === "dark" ? grey[900] : grey[50],
+            default: mode === "dark" ? grey[900] : brown[100],
+            paper: mode === "dark" ? grey[900] : brown[50],
           },
           text: {
             primary: mode === "dark" ? grey[50] : grey[900],
@@ -60,20 +60,14 @@ const Home = () => {
           <ScrollToTop />
           <Box
             sx={{
-              height: "calc(100vh - 3.5rem)",
+              minHeight: "calc(100vh - 3.5rem)",
               bgcolor: "background.default",
             }}
           >
-            <Box
-              sx={{
-                bgcolor: "background.default",
-              }}
-            >
-              <div className="notes-container">
-                <NewNote />
-                <Notes />
-              </div>
-            </Box>
+            <div className="notes-container">
+              <NewNote />
+              <Notes />
+            </div>
           </Box>
         </ThemeProvider>
       </ColorModeContext.Provider>
