@@ -73,7 +73,6 @@ const NavBar = () => {
 
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-  localStorage.setItem("paletteMode", theme.palette.mode);
 
   const token = localStorage.getItem("token")!;
   const { name } = Object(jwtDecode(token));
@@ -106,7 +105,9 @@ const NavBar = () => {
 
   useEffect(() => {
     dispatch(searchNote(keyword));
-  }, [dispatch, keyword]);
+
+    localStorage.setItem("paletteMode", theme.palette.mode);
+  }, [dispatch, keyword, theme.palette.mode]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

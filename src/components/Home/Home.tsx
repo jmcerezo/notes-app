@@ -2,6 +2,7 @@ import { createContext, useMemo, useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { brown, grey } from "@mui/material/colors";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
 import NavBar from "./NavBar";
 import NewNote from "./NewNote";
@@ -16,7 +17,9 @@ export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 const Home = () => {
   const paletteMode = localStorage.getItem("paletteMode");
-  const palette = paletteMode === "dark" ? "dark" : "light";
+  const prefersDark = useMediaQuery("(prefers-color-scheme: dark)");
+  const isDarkMode = paletteMode ? paletteMode === "dark" : prefersDark;
+  const palette = isDarkMode ? "dark" : "light";
   const [mode, setMode] = useState<"dark" | "light">(palette);
 
   const colorMode = useMemo(
