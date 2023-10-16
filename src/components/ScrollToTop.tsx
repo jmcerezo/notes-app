@@ -26,10 +26,16 @@ const ScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleShowButton = () => {
+    window.scrollY > 250 ? setShow(true) : setShow(false);
+  };
+
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      window.scrollY > 250 ? setShow(true) : setShow(false);
-    });
+    window.addEventListener("scroll", handleShowButton);
+
+    return () => {
+      window.removeEventListener("scroll", handleShowButton);
+    };
   }, []);
 
   return (
