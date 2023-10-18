@@ -16,6 +16,7 @@ import WavingHandOutlined from "@mui/icons-material/WavingHandOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import { ColorModeContext } from "./Home";
 import { useAppDispatch } from "../../hooks";
@@ -67,15 +68,13 @@ const menuId = "primary-search-menu";
 const mobileMenuId = "primary-search-menu-mobile";
 
 const NavBar = () => {
+  const [name, setName] = useState("");
   const [keyword, setKeyword] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
-
-  const token = localStorage.getItem("token")!;
-  const { name } = Object(jwtDecode(token));
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -98,13 +97,21 @@ const NavBar = () => {
     toast.loading("Logging out...", toastLoadingOptions);
 
     setTimeout(() => {
-      localStorage.removeItem("token");
+      Cookies.remove("token");
+
       navigate("/login");
-    }, 3000);
+    }, 2500);
   };
 
   useEffect(() => {
     dispatch(searchNote(keyword));
+
+    const token = Cookies.get("token");
+
+    if (token) {
+      const { name } = Object(jwtDecode(token));
+      setName(name);
+    }
 
     localStorage.setItem("paletteMode", theme.palette.mode);
   }, [dispatch, keyword, theme.palette.mode]);

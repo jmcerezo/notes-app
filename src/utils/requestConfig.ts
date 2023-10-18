@@ -1,5 +1,7 @@
+import Cookies from "js-cookie";
+
 const requestConfig = () => {
-  const token = localStorage.getItem("token")!;
+  const token = Cookies.get("token");
   return {
     headers: { Authorization: `Bearer ${token}` },
   };

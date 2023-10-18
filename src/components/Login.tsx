@@ -19,6 +19,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Copyright from "./Copyright";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 import api from "../api/notes";
 import {
   toastLoginParams,
@@ -108,7 +110,9 @@ const Login = () => {
         setPassword("");
 
         const token = res.data.token;
-        localStorage.setItem("token", token);
+        const { exp } = Object(jwtDecode(token));
+        const expires = new Date(exp * 1000);
+        Cookies.set("token", token, { expires, secure: true });
 
         navigate("/");
       });
