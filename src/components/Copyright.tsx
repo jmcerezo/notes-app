@@ -14,7 +14,7 @@ const Copyright = (props: any) => {
       <Link
         color="inherit"
         target="_blank"
-        href="https://github.com/jmccerezo/notes-app"
+        href="https://github.com/jmcerez0/notes-app"
         sx={{ fontWeight: "bold", textDecoration: "none" }}
       >
         Notes App
