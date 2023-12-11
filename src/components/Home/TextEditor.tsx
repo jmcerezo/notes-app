@@ -57,7 +57,7 @@ const TextEditor = () => {
   };
 
   const handleDiscardModal = () => {
-    disable ? handleClose() : setModalOpen(true);
+    formState !== FormState.Unchanged ? setModalOpen(true) : handleClose();
   };
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
