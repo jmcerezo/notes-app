@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export const useAuth = () => {
+const useAuth = () => {
   const token = Cookies.get("token");
 
   if (token) {
@@ -9,3 +9,5 @@ export const useAuth = () => {
 
   return false;
 };
+
+export default useAuth;
