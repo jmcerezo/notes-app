@@ -80,9 +80,6 @@ const Login = () => {
   };
 
   const validateForm = () => {
-    validateEmail(email);
-    validatePassword(password);
-
     return validateEmail(email) && validatePassword(password);
   };
 
@@ -179,6 +176,7 @@ const Login = () => {
                 autoComplete="email"
                 id="email"
                 onChange={handleChange}
+                onBlur={() => validateEmail(email)}
                 value={email}
                 helperText={emailError}
                 error={emailIsValid}
@@ -198,6 +196,7 @@ const Login = () => {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   onChange={handleChange}
+                  onBlur={() => validatePassword(password)}
                   value={password}
                   endAdornment={
                     <InputAdornment position="end">
