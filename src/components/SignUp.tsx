@@ -118,10 +118,6 @@ const SignUp = () => {
   };
 
   const validateForm = () => {
-    validateName(name);
-    validateEmail(email);
-    validatePassword(password);
-
     return (
       validateName(name) && validateEmail(email) && validatePassword(password)
     );
@@ -214,6 +210,7 @@ const SignUp = () => {
                   name="name"
                   label="Name"
                   onChange={handleChange}
+                  onBlur={() => validateName(name)}
                   value={name}
                   helperText={nameError}
                   error={nameIsValid}
@@ -229,6 +226,7 @@ const SignUp = () => {
                   name="email"
                   label="Email Address"
                   onChange={handleChange}
+                  onBlur={() => validateEmail(email)}
                   value={email}
                   helperText={emailError}
                   error={emailIsValid}
@@ -251,6 +249,7 @@ const SignUp = () => {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     onChange={handleChange}
+                    onBlur={() => validatePassword(password)}
                     value={password}
                     endAdornment={
                       <InputAdornment position="end">
