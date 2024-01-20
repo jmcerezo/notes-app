@@ -32,11 +32,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [emailError, setEmailError] = useState({ msg: "", err: false });
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [passwordError, setPasswordError] = useState({ msg: "", err: false });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -51,12 +49,10 @@ const Login = () => {
     let isValid;
 
     if (email === "") {
-      setEmailError("Enter your email address.");
-      setEmailIsValid(true);
+      setEmailError({ msg: "Enter your email address.", err: true });
       isValid = false;
     } else {
-      setEmailError("");
-      setEmailIsValid(false);
+      setEmailError({ msg: "", err: false });
       isValid = true;
     }
 
@@ -67,20 +63,21 @@ const Login = () => {
     let isValid;
 
     if (password === "") {
-      setPasswordError("Enter your password.");
-      setPasswordIsValid(true);
+      setPasswordError({ msg: "Enter your password.", err: true });
       isValid = false;
     } else {
-      setPasswordError("");
-      setPasswordIsValid(false);
+      setPasswordError({ msg: "", err: false });
       isValid = true;
     }
 
     return isValid;
   };
 
-  const validateForm = () => {
-    return validateEmail(email) && validatePassword(password);
+  const checkFormValidity = () => {
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+
+    return isEmailValid && isPasswordValid;
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,7 +94,7 @@ const Login = () => {
     event.preventDefault();
 
     const data = { email, password };
-    const formIsValid = validateForm();
+    const formIsValid = checkFormValidity();
 
     if (formIsValid) {
       const promise = api.post("auth/login", data).then((res) => {
@@ -178,14 +175,14 @@ const Login = () => {
                 onChange={handleChange}
                 onBlur={() => validateEmail(email)}
                 value={email}
-                helperText={emailError}
-                error={emailIsValid}
+                helperText={emailError.msg}
+                error={emailError.err}
               />
               <FormControl
                 fullWidth
                 variant="outlined"
                 margin="normal"
-                error={passwordIsValid}
+                error={passwordError.err}
               >
                 <InputLabel htmlFor="outlined-adornment-password">
                   Password
@@ -211,7 +208,7 @@ const Login = () => {
                     </InputAdornment>
                   }
                 />
-                <FormHelperText id="error">{passwordError}</FormHelperText>
+                <FormHelperText id="error">{passwordError.msg}</FormHelperText>
               </FormControl>
               <Button
                 fullWidth

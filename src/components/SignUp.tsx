@@ -33,14 +33,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [nameIsValid, setNameIsValid] = useState(false);
+  const [nameError, setNameError] = useState({ msg: "", err: false });
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [emailError, setEmailError] = useState({ msg: "", err: false });
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [passwordError, setPasswordError] = useState({ msg: "", err: false });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -55,20 +52,19 @@ const SignUp = () => {
     let isValid;
 
     if (name === "") {
-      setNameError("This is required.");
-      setNameIsValid(true);
+      setNameError({ msg: "This is required.", err: true });
       isValid = false;
     } else if (!alphabetRegex.test(name)) {
-      setNameError("Your name should not contain numbers.");
-      setNameIsValid(true);
+      setNameError({
+        msg: "Your name should not contain numbers.",
+        err: true,
+      });
       isValid = false;
     } else if (name.trim().length < 3) {
-      setNameError("Enter at least three characters.");
-      setNameIsValid(true);
+      setNameError({ msg: "Enter at least three characters.", err: true });
       isValid = false;
     } else {
-      setNameError("");
-      setNameIsValid(false);
+      setNameError({ msg: "", err: false });
       isValid = true;
     }
 
@@ -79,16 +75,13 @@ const SignUp = () => {
     let isValid;
 
     if (email === "") {
-      setEmailError("This is required.");
-      setEmailIsValid(true);
+      setEmailError({ msg: "This is required.", err: true });
       isValid = false;
     } else if (!emailRegex.test(email)) {
-      setEmailError("Please enter valid email address.");
-      setEmailIsValid(true);
+      setEmailError({ msg: "Please enter valid email address.", err: true });
       isValid = false;
     } else {
-      setEmailError("");
-      setEmailIsValid(false);
+      setEmailError({ msg: "", err: false });
       isValid = true;
     }
 
@@ -99,28 +92,28 @@ const SignUp = () => {
     let isValid;
 
     if (password === "") {
-      setPasswordError("This is required.");
-      setPasswordIsValid(true);
+      setPasswordError({ msg: "This is required.", err: true });
       isValid = false;
     } else if (!passwordRegex.test(password)) {
-      setPasswordError(
-        "Password requires at least 8 characters. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number."
-      );
-      setPasswordIsValid(true);
+      setPasswordError({
+        msg: "Password requires at least 8 characters. Must contain at least 1 uppercase letter, 1 lowercase letter and 1 number.",
+        err: true,
+      });
       isValid = false;
     } else {
-      setPasswordError("");
-      setPasswordIsValid(false);
+      setPasswordError({ msg: "", err: false });
       isValid = true;
     }
 
     return isValid;
   };
 
-  const validateForm = () => {
-    return (
-      validateName(name) && validateEmail(email) && validatePassword(password)
-    );
+  const checkFormValidity = () => {
+    const isNameValid = validateName(name);
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+
+    return isNameValid && isEmailValid && isPasswordValid;
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,7 +133,7 @@ const SignUp = () => {
     event.preventDefault();
 
     const data = { name, email, password };
-    const formIsValid = validateForm();
+    const formIsValid = checkFormValidity();
 
     if (formIsValid) {
       const promise = api.post("auth/signup", data).then((res) => {
@@ -212,8 +205,8 @@ const SignUp = () => {
                   onChange={handleChange}
                   onBlur={() => validateName(name)}
                   value={name}
-                  helperText={nameError}
-                  error={nameIsValid}
+                  helperText={nameError.msg}
+                  error={nameError.err}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -228,8 +221,8 @@ const SignUp = () => {
                   onChange={handleChange}
                   onBlur={() => validateEmail(email)}
                   value={email}
-                  helperText={emailError}
-                  error={emailIsValid}
+                  helperText={emailError.msg}
+                  error={emailError.err}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -238,7 +231,7 @@ const SignUp = () => {
                   fullWidth
                   variant="outlined"
                   margin="dense"
-                  error={passwordIsValid}
+                  error={passwordError.err}
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password
@@ -264,7 +257,9 @@ const SignUp = () => {
                       </InputAdornment>
                     }
                   />
-                  <FormHelperText id="error">{passwordError}</FormHelperText>
+                  <FormHelperText id="error">
+                    {passwordError.msg}
+                  </FormHelperText>
                 </FormControl>
               </Grid>
             </Grid>
