@@ -1,9 +1,8 @@
 import { toast } from "react-toastify";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://notes-api.adaptable.app"
-    : "http://localhost:3000";
+const API_BASE_URL = import.meta.env.PROD
+  ? "https://material-notes-api.vercel.app"
+  : "http://localhost:3000";
 
 const alphabetRegex = /^[a-zA-Z ]*$/;
 const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
@@ -53,7 +52,7 @@ const toastErrorOptions = {
 };
 
 export {
-  BASE_URL,
+  API_BASE_URL,
   alphabetRegex,
   emailRegex,
   passwordRegex,
